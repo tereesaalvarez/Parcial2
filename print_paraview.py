@@ -5,7 +5,7 @@ import sys
 import shutil
 
 
-def print_paraview_micro_stra_stre_disp (v_tetra, stra, stre, disp, lablet, lab):
+def print_paraview (v_tetra, stra, stre, disp, lablet, lab):
     
     num_pts=int(len(v_tetra)/3) # 3D
     dim_tet=int(num_pts/4) # Tetrahedro
