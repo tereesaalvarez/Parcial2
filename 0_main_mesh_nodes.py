@@ -2,7 +2,7 @@ import random
 import math
 import sys
 import shutil
-from print_paraview import*
+from archivos.print_paraview import*
 
 '''
 PARAMETERS
