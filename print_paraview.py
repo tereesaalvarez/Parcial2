@@ -1,20 +1,21 @@
-
 import random
 import math
 import sys
 import shutil
 
 
-def print_paraview (v_tetra, stra, stre, disp, lablet, lab):
+def print_paraview (ncoords, mesh):
     
-    num_pts=int(len(v_tetra)/3) # 3D
-    dim_tet=int(num_pts/4) # Tetrahedro
-
-    b=str(lab)
+    num_pts=len(ncoords) # 3D
+    print('number of nodes=',num_pts)
+    dim_tet=len(mesh) # Tetrahedro
+    print('number of elements=',dim_tet)
+    a='viga'
     c='.vtu'
-    nam=lablet+b+c
+    nam=a+c
     
     # v_tetra should be a vector, defined previously
+    #f=open('output_micro.vtu','w')
     f=open(nam,'w')
     f.write('<?xml version="1.0"?> \n')
     f.write('<VTKFile type="UnstructuredGrid"> \n')
@@ -30,12 +31,12 @@ def print_paraview (v_tetra, stra, stre, disp, lablet, lab):
 # Data array --> Coordinates
 
     for i in range(0,num_pts,1):
-        aux_i=i*3
-        f.write( str(v_tetra[int(aux_i+0)]))
+
+        f.write( str( ncoords[i][0]))
         f.write('   ')
-        f.write(str( v_tetra[int(aux_i+1)]))
+        f.write(str( ncoords[i][1]))
         f.write('   ')
-        f.write(str( v_tetra[int(aux_i+2)]))
+        f.write(str( ncoords[i][2]))
         f.write('\n')
 
     f.write('             </DataArray>   \n')
@@ -46,14 +47,13 @@ def print_paraview (v_tetra, stra, stre, disp, lablet, lab):
 # Data array --> Connectivity
 
     for i in range(0,dim_tet,1):
-        aux_p=i*4
-        f.write( str(aux_p+0))
+        f.write( str(mesh[i][0]))
         f.write('   ')
-        f.write(str(aux_p+1))
+        f.write(str(mesh[i][1]))
         f.write('   ')
-        f.write(str(aux_p+2))
+        f.write(str(mesh[i][2]))
         f.write('   ')
-        f.write(str(aux_p+3))
+        f.write(str(mesh[i][3]))
         f.write('\n')
     
     f.write('              </DataArray>   \n')
@@ -75,53 +75,17 @@ def print_paraview (v_tetra, stra, stre, disp, lablet, lab):
 
     f.write('              </DataArray>   \n')
     f.write('          </Cells>  \n')
-    f.write('          <PointData>  \n')
-
-
-
-    f.write('             <DataArray type="Float64" NumberOfComponents="3" Name="Strains" format="ascii">   \n')
-    dim_stra=int(len(stra)/3)
-    for i in range(0,dim_stra,1):
-        for j in range(0,4,1 ):
-            f.write( str(stra[i*3+0]))
-            f.write('   ')
-            f.write(str(stra[i*3+1]))
-            f.write('   ')
-            f.write(str(stra[i*3+2]))
-            f.write('\n')
-
-    f.write('              </DataArray>   \n')
-
-    f.write('             <DataArray type="Float64" NumberOfComponents="3" Name="Stress" format="ascii">   \n')
-    dim_stra=int(len(stra)/3)
-    for i in range(0,dim_stra,1):
-        for j in range(0,4,1 ):
-            f.write( str(stre[i*3+0]))
-            f.write('   ')
-            f.write(str(stre[i*3+1]))
-            f.write('   ')
-            f.write(str(stre[i*3+2]))
-            f.write('\n')
-
-    f.write('              </DataArray>   \n')
-
-    f.write('             <DataArray type="Float64" NumberOfComponents="3" Name="Displacements" format="ascii">   \n')
-    dim_disp=int(len(disp)/3)
-    for i in range(0,dim_disp,1):
-        
-        f.write( str(disp[i*3+0]))
-        f.write('   ')
-        f.write(str(disp[i*3+1]))
-        f.write('   ')
-        f.write(str(disp[i*3+2]))
-        f.write('\n')
-
-    f.write('              </DataArray>   \n')
-    
-    f.write('          </PointData>  \n')
     f.write('       </Piece>  \n')
     f.write('   </UnstructuredGrid> \n')
     f.write('</VTKFile> \n')
     f.close()
 
     return;
+
+
+
+
+
+
+
+
